@@ -10,8 +10,10 @@ def doAnalysis(commentsList) -> float:
         #print(sia.polarity_scores(comment))
         positive_score = sia.polarity_scores(comment)["pos"]
         negative_score = sia.polarity_scores(comment)["neg"]
-        print("Neg: " + str(negative_score))
-        print("Pos: " + str(positive_score))
+        compound_score = sia.polarity_scores(comment)["compound"]
+        #print("Neg: " + str(negative_score))
+        #print("Comp: " + str(compound_score))
+        #print("Pos: " + str(positive_score))
         scores_total += positive_score
         scores_total -= negative_score
         #print(compound_scores_total)

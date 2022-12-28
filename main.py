@@ -11,6 +11,10 @@ import googleapiclient.discovery
 import googleapiclient.errors
 import json
 
+import nltk
+from cleantext import clean
+
+import ResultPlot
 import SentimentAnalysis
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
@@ -40,10 +44,11 @@ def main():
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
+    search_term = "fox news"
     request_search = youtube_search.search().list(
         part="snippet",
         maxResults=20,
-        q="funny"
+        q=search_term
     )
     response_search = request_search.execute()
 
@@ -57,6 +62,7 @@ def main():
         print(string)
         print("---------------------------")"""
 
+    stopwords = nltk.corpus.stopwords.words("english")
     string_split_search.pop(0)
 
     list_videos = []
@@ -82,7 +88,7 @@ def main():
                 part="snippet,replies",
                 # videoId="pRiGQWfiz2A",
                 videoId=videoID,
-                maxResults=10
+                maxResults=50
             )
             response = request.execute()
             # Convert the response to a string
@@ -94,13 +100,20 @@ def main():
             list = []
             for string in string_split:
                 text_index = string.find("authorDisplayName")
-                list.append(string[4:text_index - 4])
+                list.append(clean(string[4:text_index - 4], no_emoji=True))
                 # print(text_index)
 
             list.pop(0)
             for item in list:
                 print(item)
                 print("\n")
+
+            """list_no_stop = []
+            index = 0
+            while index < len(list):
+                list_no_stop.insert(index, [w for w in list if w.lower() not in stopwords])
+                index += 1"""
+
 
             analysis_result = SentimentAnalysis.doAnalysis(list)
             print("Index: " + str(video_index))
@@ -110,7 +123,9 @@ def main():
             video_index += 1
 
         except googleapiclient.errors.HttpError:
-            print("COMMENTS DISABLED")
+            print("-----------------Error with request------------------")
+            print("for video id: " + str(videoID))
+            list_scores.append(0)
             video_index += 1
     #END FOR
 
@@ -122,6 +137,7 @@ def main():
 
     print("Scores Total: " + str(total_scores))
 
+    ResultPlot.plotResults(list_videos, list_scores, search_term)
     #print(response_search_string)
 if __name__ == "__main__":
     main()
