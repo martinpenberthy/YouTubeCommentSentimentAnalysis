@@ -5,6 +5,13 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 def doAnalysis(commentsList) -> float:
     sia = SentimentIntensityAnalyzer()
 
+    """list_no_stop = []
+    stopwords = nltk.corpus.stopwords.words("english")
+    for comment in commentsList:
+        no_stop = [w for w in comment if w.lower() not in stopwords]
+        list_no_stop.append(no_stop)"""
+
+
     scores_total = 0
     for comment in commentsList:
         #print(sia.polarity_scores(comment))

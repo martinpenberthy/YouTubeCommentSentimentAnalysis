@@ -44,10 +44,10 @@ def main():
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    search_term = "fox news"
+    search_term = "cute cats"
     request_search = youtube_search.search().list(
         part="snippet",
-        maxResults=20,
+        maxResults=5,
         q=search_term
     )
     response_search = request_search.execute()
@@ -62,7 +62,7 @@ def main():
         print(string)
         print("---------------------------")"""
 
-    stopwords = nltk.corpus.stopwords.words("english")
+
     string_split_search.pop(0)
 
     list_videos = []
@@ -88,7 +88,7 @@ def main():
                 part="snippet,replies",
                 # videoId="pRiGQWfiz2A",
                 videoId=videoID,
-                maxResults=50
+                maxResults=10
             )
             response = request.execute()
             # Convert the response to a string
