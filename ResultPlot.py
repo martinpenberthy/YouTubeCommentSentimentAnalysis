@@ -13,7 +13,7 @@ def plotResults(list_videos, list_scores, search_term):
     plt.title(search_term)
     plt.xticks(fontsize=8, rotation=90)
     plt.bar(xpoints, ypoints)
-
+    plt.savefig("SentimentResult" + search_term)
     plt.show()
 
-    plt.savefig("SentimentResult" + search_term)
+

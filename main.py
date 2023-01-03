@@ -44,24 +44,34 @@ def main():
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    search_term = "cute cats"
+    search_term = "crypto"
     request_search = youtube_search.search().list(
         part="snippet",
-        maxResults=5,
+        maxResults = 20,
         q=search_term
     )
     response_search = request_search.execute()
 
+
     # Convert the response to a string
     response_search_string = json.dumps(response_search)
+    f = open("json_out.json", "w")
+    f.write(response_search_string)
+    f.close()
+    response_search_string_copy = response_search_string
 
     string_split_search = response_search_string.split('videoId')
-
+    string_split_search_titles = response_search_string.split('title')
     """for string in string_split_search:
         print("\n")
         print(string)
         print("---------------------------")"""
-
+    string_split_search_titles.pop(0)
+    print("TITLES: ")
+    for title in string_split_search_titles:
+        title_index = title.find("\",")
+        print(title[4:title_index])
+        print("\n")
 
     string_split_search.pop(0)
 
@@ -88,11 +98,12 @@ def main():
                 part="snippet,replies",
                 # videoId="pRiGQWfiz2A",
                 videoId=videoID,
-                maxResults=10
+                maxResults=25
             )
             response = request.execute()
             # Convert the response to a string
             response_string = json.dumps(response)
+
 
             # Split the response string at the 'textOriginal' tags
             string_split = response_string.split('textOriginal')
@@ -107,12 +118,6 @@ def main():
             for item in list:
                 print(item)
                 print("\n")
-
-            """list_no_stop = []
-            index = 0
-            while index < len(list):
-                list_no_stop.insert(index, [w for w in list if w.lower() not in stopwords])
-                index += 1"""
 
 
             analysis_result = SentimentAnalysis.doAnalysis(list)
