@@ -66,15 +66,18 @@ def main():
         print("\n")
         print(string)
         print("---------------------------")"""
+
     string_split_search_titles.pop(0)
+    titles_clean = []
     print("TITLES: ")
     for title in string_split_search_titles:
         title_index = title.find("\",")
-        print(title[4:title_index])
-        print("\n")
+        titles_clean.append(clean(title[4:title_index], no_emoji=True))
+
+    for title in titles_clean:
+        print(title + "\n")
 
     string_split_search.pop(0)
-
     list_videos = []
     for string in string_split_search:
         text_index = string.find("}")
@@ -142,7 +145,7 @@ def main():
 
     print("Scores Total: " + str(total_scores))
 
-    ResultPlot.plotResults(list_videos, list_scores, search_term)
+    ResultPlot.plotResults(titles_clean, list_scores, search_term)
     #print(response_search_string)
 if __name__ == "__main__":
     main()

@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plotResults(list_videos, list_scores, search_term):
+def plotResults(titles_clean, list_scores, search_term):
     #print("list_videos: " + str(len(list_videos)))
     #print("list_scores: " + str(len(list_scores)))
-    xpoints = list_videos
+    xpoints = titles_clean
     ypoints = list_scores
 
     plt.xlabel("Video IDs")
