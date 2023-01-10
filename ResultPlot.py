@@ -3,8 +3,8 @@ import numpy as np
 
 
 def plotResults(titles_clean, list_scores, search_term):
-    #print("list_videos: " + str(len(list_videos)))
-    #print("list_scores: " + str(len(list_scores)))
+    print("titles: " + str(len(titles_clean)))
+    print("list_scores: " + str(len(list_scores)))
     xpoints = titles_clean
     ypoints = list_scores
 
@@ -14,6 +14,6 @@ def plotResults(titles_clean, list_scores, search_term):
     plt.xticks(fontsize=8, rotation=90)
     plt.bar(xpoints, ypoints)
     plt.savefig("SentimentResult" + search_term)
-    plt.show()
+    #plt.show()
 
 
