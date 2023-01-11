@@ -119,6 +119,9 @@ def getDataFromYouTube(search_term):
             print("for video id: " + str(videoID))
             list_scores.append(0)
             video_index += 1
+        """else:
+            list_scores.append(0)
+            video_index += 1"""
     # END FOR
 
     print("All Scores: " + str(list_scores))

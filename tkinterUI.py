@@ -39,7 +39,7 @@ button = tk.Button(
     command=getText
 )
 button.pack()
-
+"""
 if data_collected:
     image1 = Image.open("SentimentResultcringe.png")
     test = ImageTk.PhotoImage(image1)
@@ -47,7 +47,7 @@ if data_collected:
     label1 = tk.Label(image=test, master=frame)
     label1.image = test
     label1.pack()
-
+"""
 frame.pack()
 
 window.mainloop()
