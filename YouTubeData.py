@@ -30,7 +30,7 @@ def getDataFromYouTube(search_term):
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    #search_term = "crypto"
+
     request_search = youtube_search.search().list(
         part="snippet",
         maxResults=20,
