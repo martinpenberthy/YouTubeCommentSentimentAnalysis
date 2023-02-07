@@ -1,0 +1,82 @@
+Search Term: book tok
+Search Position: 1
+Title: "booktok tiktok compilation"
+Score: 2.9000000000000004
+
+Search Position: 2
+Title: "booktok tiktok compilations "
+Score: 3.387
+
+Search Position: 3
+Title: "9 minutes of relatable booktok tiktok tiktok compilation #15"
+Score: 0.614
+
+Search Position: 4
+Title: "the ultimate guide to tiktok books which ones should you read?"
+Score: 3.766
+
+Search Position: 5
+Title: "booktok compilation #1"
+Score: 2.5780000000000007
+
+Search Position: 6
+Title: "6 minutes of random booktok tiktok tiktok compilation #12"
+Score: 0.6339999999999999
+
+Search Position: 7
+Title: "tier ranking every popular booktok book i've read "
+Score: 5.558999999999998
+
+Search Position: 8
+Title: "i read the biggest books on tiktok to see if booktok can be trusted (part 2) "
+Score: 4.675
+
+Search Position: 9
+Title: "spicy booktok compilation"
+Score: 4.144
+
+Search Position: 10
+Title: "9 minutes of relatable booktok tiktok tiktok compilation #12"
+Score: 2.434
+
+Search Position: 11
+Title: "booktok compilation - random tiktok compilation 25"
+Score: 1.451
+
+Search Position: 12
+Title: "reading tiktok book recommendations for 24 hours | 2022 book recommendations + spoilers"
+Score: 3.194
+
+Search Position: 13
+Title: "i read viral tik tok book series - are they worth the hype?"
+Score: 7.107
+
+Search Position: 14
+Title: "booktok compilation #53"
+Score: 0.19400000000000003
+
+Search Position: 15
+Title: "ultimate booktok tiktok compilation (december 2020) - part 2"
+Score: 4.151999999999999
+
+Search Position: 16
+Title: "9 minutes of relatable booktok tiktok tiktok compilation #15"
+Score: 0.044999999999999984
+
+Search Position: 17
+Title: "booktok compilation #3"
+Score: 5.11
+
+Search Position: 18
+Title: "i read tiktok's most popular books -- can booktok be trusted?? *no spoilers*"
+Score: -1.8030000000000004
+
+Search Position: 19
+Title: "booktok tiktok compilation #6"
+Score: 3.2830000000000004
+
+Search Position: 20
+Title: "9 minutes of relatable booktok tiktok tiktok compilation #13"
+Score: -0.10799999999999998
+
+Score Total53.31600000000002
