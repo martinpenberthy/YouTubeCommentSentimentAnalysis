@@ -1,17 +1,23 @@
-import os
+# Martin Penberthy
+# This file contains code for requesting data from the YouTube API V3.
+# The data needed is extracted and stored. Then the data is passed to the
+# SentimentAnalysis.py file which returns a sentiment score. This file then
+# passes the analyzed data to the ResultPlot.py file which generates a graph.
 
+import os
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 import json
 import nltk
 from cleantext import clean
-
 import ResultPlot
 import SentimentAnalysis
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
+
+# This fuction getss invoked by tkinterUI.py which passes it the search  term to use
 def getDataFromYouTube(search_term):
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -20,48 +26,48 @@ def getDataFromYouTube(search_term):
     api_service_name = "youtube"
     api_version = "v3"
     DEVELOPER_KEY = "AIzaSyC-wXmcxtxwUnmJLJSrb4jZ6pDP0-bkYYM"
-
     client_secrets_file = "client_secret_241273044011-fjfcd77opncv1rd2q04fcurmv5ptmbkq.apps.googleusercontent.com.json"
 
-    ##############EXTRACT VIDEOIDS FROM SEARCH##############
+    # YouTube API set up
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
         client_secrets_file, scopes)
     credentials = flow.run_console()
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-
+    # Set parameters for video search
     request_search = youtube_search.search().list(
         part="snippet",
         maxResults=20,
         q=search_term
     )
+    # Execute request and save the response
     response_search = request_search.execute()
 
-    # Convert the response to a string
+    # Convert the response to a string to write to file for debug purposes
     response_search_string = json.dumps(response_search)
     f = open("json_out2.json", "w")
     f.write(response_search_string)
     f.close()
-
+    # Get the number of results returned
     count = response_search["pageInfo"]["resultsPerPage"]
     list_videos = []
-
+    # For every video in the response, add the ID to the list
     for i in range(count):
-        print("LOOP")
         if response_search["items"][i]["id"]["kind"] == "youtube#video":
-            print("if TRUE")
             string = response_search["items"][i]["id"]["videoId"]
             list_videos.append(string)
 
     print("VideoIds extracted")
-
+    """
     for string in list_videos:
         print(string)
         print("---------------------------")
+    """
 
     titles = []
     titles_clean = []
+    # For every video in the response, add the video title to the list
     for i in range(count):
         print(response_search["items"][i]["snippet"]["title"])
         if response_search["items"][i]["id"]["kind"] == "youtube#video":
@@ -69,61 +75,17 @@ def getDataFromYouTube(search_term):
             string = json.dumps(response_search["items"][i]["snippet"]["title"])
             titles.append(string)
 
+    # Strip emojis from the titles
     for string in titles:
-        titles_clean.append(clean(string, no_emoji = True))
+        titles_clean.append(clean(string, no_emoji=True))
 
-    """response_search_string_copy = response_search_string
-    response_search_string_copy2 = response_search_string
-
-    string_split_search = response_search_string.split('videoId')
-    string_split_search_titles = response_search_string_copy.split('title')
-    string_split_kind = response_search_string_copy2.split('kind')
-    channel_index = 0
-
-    for string in string_split_kind:
-        print("\n")
-        print("KIND: " + string)
-        print("---------------------------")
-        channel_index = string.find('youtube#channel')
-
-    for string in string_split_search_titles:
-        print("\n")
-        print(string)
-        print("---------------------------")
-
-    string_split_search_titles.pop(0)
-    titles_clean = []
-
-    for title in string_split_search_titles:
-        title_index = title.find("\",")
-        titles_clean.append(clean(title[4:title_index], no_emoji=True))
-    print("TITLES: ")
-    for title in titles_clean:
-        print(title + "\n")
-
-    if channel_index == -1:
-        titles_clean.pop(0)
-
-    print("Channel Index: " + str(channel_index))
-
-    string_split_search.pop(0)
-    list_videos = []
-    for string in string_split_search:
-        text_index = string.find("}")
-        list_videos.append(string[4:text_index - 1])
-        # print(text_index)
-
-    for string in list_videos:
-        print(string)
-        print("---------------------------")
-    print("Video Id's successfully extracted")
-    print("list_videos length: " + str(len(list_videos)))
-"""
+    # Set up YouTube APIv3
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, developerKey=DEVELOPER_KEY)
 
     list_scores = []
     video_index = 0
+    # For every video ID in the list
     for videoID in list_videos:
         try:
             # Gets the pinned comment and "maxResults" most recent comments in addition to their replies
@@ -133,63 +95,51 @@ def getDataFromYouTube(search_term):
                 videoId=videoID,
                 maxResults=25
             )
+            # Store the response
             response = request.execute()
             # Convert the response to a string
             response_string = json.dumps(response)
-
+            # Write to file for debugging purposes
             f = open("json_outComments.json", "w")
             f.write(response_string)
             f.close()
 
-            # Split the response string at the 'textOriginal' tags
-            #string_split = response_string.split('textOriginal')
-
+            # Get the number of comments actually returned
             comments_count = response["pageInfo"]["totalResults"]
             list = []
+            # Get each comment, strip emojis and add it to the list
             for i in range(comments_count):
                 string = response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
-                #print("JSONTETST")
-                #print(string)
-                list.append(clean(string, no_emoji= True))
+                list.append(clean(string, no_emoji=True))
 
-            """for string in string_split:
-                text_index = string.find("authorDisplayName")
-                list.append(clean(string[4:text_index - 4], no_emoji=True))
-                # print(text_index)
-
-            list.pop(0)"""
-            """for item in list:
-                print(item)
-                print("\n")"""
-
+            # Invoke the analysis function and give it the list of comments
             analysis_result = SentimentAnalysis.doAnalysis(list)
-            #print("Index: " + str(video_index))
-            #print("VideoID: " + str(videoID))
-            #print("Analysis Result: " + str(analysis_result))
+            # print("Index: " + str(video_index))
+            # print("VideoID: " + str(videoID))
+            # print("Analysis Result: " + str(analysis_result))
+
+            # Add the results for each video
             list_scores.append(analysis_result)
             video_index += 1
-
+        # Catch any errors with the API request
         except googleapiclient.errors.HttpError as e:
             print("-----------------Error with request------------------")
             print("for video id: " + str(videoID))
             print("ERROR: " + str(e.error_details[0]["reason"]))
             print("ERROR: " + str(e.error_details[0]["message"]))
-            #print("ERROR: " + str(e.error_details["errors"]["message"]))
+            # print("ERROR: " + str(e.error_details["errors"]["message"]))
             list_scores.append(0)
             video_index += 1
-        """else:
-            list_scores.append(0)
-            video_index += 1"""
     # END FOR
 
     print("All Scores: " + str(list_scores))
     total_scores = 0
-
+    # Calculate total score for all videos
     for score in list_scores:
         total_scores += score
 
     print("Scores Total: " + str(total_scores))
-
+    # Create a text file to contain results
     file = open("SentimentResult_" + search_term + ".txt", "w")
     file.write("Search Term: " + search_term + "\n")
 
@@ -203,4 +153,5 @@ def getDataFromYouTube(search_term):
     file.write("Score Total" + str(total_scores))
     file.close()
 
+    # Display results in new window and save as png
     ResultPlot.plotResults(titles_clean, list_scores, search_term)
