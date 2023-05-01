@@ -17,8 +17,8 @@ import SentimentAnalysis
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
 
-# This fuction getss invoked by tkinterUI.py which passes it the search  term to use
-def getDataFromYouTube(search_term):
+# This fuction gets invoked by tkinterUI.py which passes it the search term to use
+def getDataFromYouTube(search_term, vid_count):
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -38,7 +38,7 @@ def getDataFromYouTube(search_term):
     # Set parameters for video search
     request_search = youtube_search.search().list(
         part="snippet",
-        maxResults=20,
+        maxResults=vid_count,
         q=search_term
     )
     # Execute request and save the response
@@ -150,7 +150,8 @@ def getDataFromYouTube(search_term):
         file.write("Score: " + str(list_scores[count - 1]) + "\n\n")
         count += 1
 
-    file.write("Score Total" + str(total_scores))
+    file.write("Score Total: " + str(total_scores) + "\n")
+    file.write("Average Score: " + str(total_scores / count))
     file.close()
 
     # Display results in new window and save as png
