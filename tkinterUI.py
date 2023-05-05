@@ -32,7 +32,7 @@ vid_result_count = 0
 comment_count = 0
 # Make a window
 window = tk.Tk()
-window.minsize(400, 200)
+window.minsize(400, 250)
 
 # Labels with text
 frame = tk.Frame()
@@ -65,7 +65,7 @@ combo_vid_count.place(x=30, y=110)
 ###########COMMENT COUNT###########
 label3 = tk.Label(#master=frame,
                   text="Comment count")
-label3.place(x=310, y=90)
+label3.place(x=320, y=90)
 
 combo_com_count = ttk.Combobox(
     #master=frame,
@@ -75,7 +75,7 @@ combo_com_count = ttk.Combobox(
     justify="center"
 )
 combo_com_count.current(4)
-combo_com_count.place(x=335, y=110)
+combo_com_count.place(x=345, y=110)
 
 # Search button which calls getText()
 
@@ -94,6 +94,10 @@ button.place(x=180, y=120)
 filename = "SentimentResult" + user_entry + ".png"
 frame.pack()
 
+
+
+label4 = tk.Label(text="Created by Martin Penberthy")
+label4.place(x=140, y=220)
 """
 if data_collected:
     image1 = Image.open(filename)   
