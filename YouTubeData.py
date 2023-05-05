@@ -18,7 +18,7 @@ scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
 
 # This fuction gets invoked by tkinterUI.py which passes it the search term to use
-def getDataFromYouTube(search_term, vid_count):
+def getDataFromYouTube(search_term, vid_count, comment_count):
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -26,11 +26,11 @@ def getDataFromYouTube(search_term, vid_count):
     api_service_name = "youtube"
     api_version = "v3"
     DEVELOPER_KEY = "AIzaSyC-wXmcxtxwUnmJLJSrb4jZ6pDP0-bkYYM"
-    client_secrets_file = "client_secret_241273044011-fjfcd77opncv1rd2q04fcurmv5ptmbkq.apps.googleusercontent.com.json"
+    client_secrets_file = "client_secret_1032002428438-bh8v55vjju3ojv529eklbv3ldho2tvns.apps.googleusercontent.com.json"
 
     # YouTube API set up
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-        client_secrets_file, scopes)
+    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
+    #flow = google_auth_oauthlib.flow.WebServerFlow.from_client_secrets_file(client_secrets_file, scopes)
     credentials = flow.run_console()
     youtube_search = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
@@ -69,9 +69,9 @@ def getDataFromYouTube(search_term, vid_count):
     titles_clean = []
     # For every video in the response, add the video title to the list
     for i in range(count):
-        print(response_search["items"][i]["snippet"]["title"])
+        #print(response_search["items"][i]["snippet"]["title"])
         if response_search["items"][i]["id"]["kind"] == "youtube#video":
-            print("if TRUE")
+            #print("if TRUE")
             string = json.dumps(response_search["items"][i]["snippet"]["title"])
             titles.append(string)
 
@@ -93,16 +93,16 @@ def getDataFromYouTube(search_term, vid_count):
                 part="snippet,replies",
                 # videoId="pRiGQWfiz2A",
                 videoId=videoID,
-                maxResults=25
+                maxResults=comment_count
             )
             # Store the response
             response = request.execute()
             # Convert the response to a string
             response_string = json.dumps(response)
             # Write to file for debugging purposes
-            f = open("json_outComments.json", "w")
+            """f = open("json_outComments.json", "w")
             f.write(response_string)
-            f.close()
+            f.close()"""
 
             # Get the number of comments actually returned
             comments_count = response["pageInfo"]["totalResults"]
@@ -139,6 +139,7 @@ def getDataFromYouTube(search_term, vid_count):
         total_scores += score
 
     print("Scores Total: " + str(total_scores))
+
     # Create a text file to contain results
     file = open("SentimentResult_" + search_term + ".txt", "w")
     file.write("Search Term: " + search_term + "\n")
