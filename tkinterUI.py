@@ -33,6 +33,7 @@ comment_count = 0
 # Make a window
 window = tk.Tk()
 window.minsize(400, 250)
+window.title("YCSA")
 
 # Labels with text
 frame = tk.Frame()
