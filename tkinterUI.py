@@ -36,7 +36,7 @@ window.minsize(400, 200)
 
 # Labels with text
 frame = tk.Frame()
-label = tk.Label(master=frame, text="YouTube Comment Sentiment Analysis", bg="#00aaff")
+label = tk.Label(master=frame, text="YouTube Comment Sentiment Analysis", bg="#7277CC", font=("Arial", 25))
 label.pack()
 
 label2 = tk.Label(master=frame, text="Enter a search term below!")
