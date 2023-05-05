@@ -36,7 +36,7 @@ window.minsize(400, 200)
 
 # Labels with text
 frame = tk.Frame()
-label = tk.Label(master=frame, text="YouTube Comment Sentiment Analysis", bg="#7277CC", font=("Arial", 25))
+label = tk.Label(master=frame, text="YouTube Comment Sentiment Analysis", bg="#8fcadd", font=("Arial", 25))
 label.pack()
 
 label2 = tk.Label(master=frame, text="Enter a search term below!")
@@ -65,7 +65,7 @@ combo_vid_count.place(x=30, y=110)
 ###########COMMENT COUNT###########
 label3 = tk.Label(#master=frame,
                   text="Comment count")
-label3.place(x=280, y=90)
+label3.place(x=310, y=90)
 
 combo_com_count = ttk.Combobox(
     #master=frame,
@@ -75,7 +75,7 @@ combo_com_count = ttk.Combobox(
     justify="center"
 )
 combo_com_count.current(4)
-combo_com_count.place(x=305, y=110)
+combo_com_count.place(x=335, y=110)
 
 # Search button which calls getText()
 
@@ -88,7 +88,7 @@ button = tk.Button(
     #bg="black",
     command=getValues
 )
-button.place(x=155, y=120)
+button.place(x=180, y=120)
 #button.pack()
 
 filename = "SentimentResult" + user_entry + ".png"
